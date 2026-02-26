@@ -11,15 +11,16 @@ def init_db():
     conn = sqlite3.connect("letters.db")
     cursor = conn.cursor()
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS letters (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            sender TEXT,
-            recipient_email TEXT,
-            delivery_date TEXT,
-            message TEXT,
-            created_at TEXT
-        )
-    """)
+    CREATE TABLE IF NOT EXISTS letters (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        sender TEXT,
+        recipient_email TEXT,
+        delivery_date TEXT,
+        message TEXT,
+        created_at TEXT,
+        delivered INTEGER DEFAULT 0
+    )
+""")
     conn.commit()
     conn.close()
 
