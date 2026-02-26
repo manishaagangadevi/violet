@@ -10,15 +10,24 @@
 
     <form id="letterForm">
         <input type="text" id="sender" placeholder="Your Name" required><br>
+
         <input type="email" id="recipient" placeholder="Recipient Email" required><br>
+
+        <label>Delivery Date:</label><br>
         <input type="date" id="date" required><br>
+
+        <label>Delivery Time:</label><br>
+        <input type="time" id="time" required><br>
+
         <textarea id="message" placeholder="Write your letter here..." required></textarea><br>
+
         <button type="submit">Save Letter</button>
     </form>
+
     <hr>
 
-<h2>Saved Letters 💌</h2>
-<div id="lettersContainer"></div>
+    <h2>Saved Letters 💌</h2>
+    <div id="lettersContainer"></div>
 
     <script src="script.js"></script>
 
