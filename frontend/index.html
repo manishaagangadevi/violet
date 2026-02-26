@@ -9,6 +9,7 @@
     <h1>Write a Letter to the Future 💜</h1>
 
     <form id="letterForm">
+
         <input type="text" id="sender" placeholder="Your Name" required><br>
 
         <input type="email" id="recipient" placeholder="Recipient Email" required><br>
@@ -17,7 +18,22 @@
         <input type="date" id="date" required><br>
 
         <label>Delivery Time:</label><br>
-        <input type="time" id="time" required><br>
+
+        <select id="hour" required>
+            <option value="">Hour</option>
+        </select>
+
+        <select id="minute" required>
+            <option value="">Minute</option>
+        </select>
+
+        <select id="ampm" required>
+            <option value="">AM/PM</option>
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+        </select>
+
+        <br><br>
 
         <textarea id="message" placeholder="Write your letter here..." required></textarea><br>
 
