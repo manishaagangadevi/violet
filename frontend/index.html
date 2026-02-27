@@ -6,43 +6,39 @@
 </head>
 <body>
 
-    <div class="petals"></div>
+    <!-- Soft Piano Background -->
+    <audio autoplay loop>
+        <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_7c1b5f5b78.mp3" type="audio/mpeg">
+    </audio>
+
+    <canvas id="petalCanvas"></canvas>
 
     <h1>Write a Letter to the Future 💜</h1>
 
-    <form id="letterForm">
+    <div class="glass-card">
+        <form id="letterForm">
+            <input type="text" id="sender" placeholder="Your Name" required>
+            <input type="email" id="recipient" placeholder="Recipient Email" required>
 
-        <input type="text" id="sender" placeholder="Your Name" required>
+            <label>Delivery Date:</label>
+            <input type="date" id="date" required>
 
-        <input type="email" id="recipient" placeholder="Recipient Email" required>
+            <label>Delivery Time:</label>
 
-        <label>Delivery Date:</label>
-        <input type="date" id="date" required>
+            <div class="time-select">
+                <select id="hour" required><option value="">Hour</option></select>
+                <select id="minute" required><option value="">Minute</option></select>
+                <select id="ampm" required>
+                    <option value="">AM/PM</option>
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+            </div>
 
-        <label>Delivery Time:</label>
-
-        <div class="time-select">
-            <select id="hour" required>
-                <option value="">Hour</option>
-            </select>
-
-            <select id="minute" required>
-                <option value="">Minute</option>
-            </select>
-
-            <select id="ampm" required>
-                <option value="">AM/PM</option>
-                <option value="AM">AM</option>
-                <option value="PM">PM</option>
-            </select>
-        </div>
-
-        <textarea id="message" placeholder="Write your heartfelt letter here..." required></textarea>
-
-        <button type="submit">Save Letter</button>
-    </form>
-
-    <hr>
+            <textarea id="message" placeholder="Write your heartfelt letter..." required></textarea>
+            <button type="submit">Seal Envelope ✉️</button>
+        </form>
+    </div>
 
     <h2>Saved Letters 💌</h2>
     <div id="lettersContainer"></div>
