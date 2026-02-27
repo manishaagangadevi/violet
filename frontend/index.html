@@ -6,36 +6,38 @@
 </head>
 <body>
 
+    <div class="petals"></div>
+
     <h1>Write a Letter to the Future 💜</h1>
 
     <form id="letterForm">
 
-        <input type="text" id="sender" placeholder="Your Name" required><br>
+        <input type="text" id="sender" placeholder="Your Name" required>
 
-        <input type="email" id="recipient" placeholder="Recipient Email" required><br>
+        <input type="email" id="recipient" placeholder="Recipient Email" required>
 
-        <label>Delivery Date:</label><br>
-        <input type="date" id="date" required><br>
+        <label>Delivery Date:</label>
+        <input type="date" id="date" required>
 
-        <label>Delivery Time:</label><br>
+        <label>Delivery Time:</label>
 
-        <select id="hour" required>
-            <option value="">Hour</option>
-        </select>
+        <div class="time-select">
+            <select id="hour" required>
+                <option value="">Hour</option>
+            </select>
 
-        <select id="minute" required>
-            <option value="">Minute</option>
-        </select>
+            <select id="minute" required>
+                <option value="">Minute</option>
+            </select>
 
-        <select id="ampm" required>
-            <option value="">AM/PM</option>
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-        </select>
+            <select id="ampm" required>
+                <option value="">AM/PM</option>
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select>
+        </div>
 
-        <br><br>
-
-        <textarea id="message" placeholder="Write your letter here..." required></textarea><br>
+        <textarea id="message" placeholder="Write your heartfelt letter here..." required></textarea>
 
         <button type="submit">Save Letter</button>
     </form>
@@ -46,6 +48,5 @@
     <div id="lettersContainer"></div>
 
     <script src="script.js"></script>
-
 </body>
 </html>
