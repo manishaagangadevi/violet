@@ -12,22 +12,28 @@ function populateTimeSelectors() {
         minuteSelect.innerHTML += `<option value="${val}">${val}</option>`;
     }
 }
+
 populateTimeSelectors();
+
+
+// Convert 12hr to 24hr
+function convertTo24Hour(hour, minute, ampm) {
+    hour = parseInt(hour);
+    if (ampm === "PM" && hour !== 12) hour += 12;
+    if (ampm === "AM" && hour === 12) hour = 0;
+    return `${hour.toString().padStart(2, "0")}:${minute}`;
+}
 
 
 // Save Letter
 document.getElementById("letterForm").addEventListener("submit", async function(e) {
     e.preventDefault();
 
-    let hour = parseInt(document.getElementById("hour").value);
-    let minute = document.getElementById("minute").value;
-    let ampm = document.getElementById("ampm").value;
+    const hour = document.getElementById("hour").value;
+    const minute = document.getElementById("minute").value;
+    const ampm = document.getElementById("ampm").value;
 
-    if (ampm === "PM" && hour !== 12) hour += 12;
-    if (ampm === "AM" && hour === 12) hour = 0;
-
-    hour = hour < 10 ? "0" + hour : hour;
-    const formattedTime = `${hour}:${minute}`;
+    const formattedTime = convertTo24Hour(hour, minute, ampm);
 
     const data = {
         sender: sender.value,
@@ -49,7 +55,8 @@ document.getElementById("letterForm").addEventListener("submit", async function(
 
 
 // Typewriter Effect
-function typeWriter(element, text, speed = 20) {
+function typeWriter(element, text, speed = 15) {
+    element.innerHTML = "";
     let i = 0;
     function typing() {
         if (i < text.length) {
@@ -62,68 +69,39 @@ function typeWriter(element, text, speed = 20) {
 }
 
 
-// Load Letters with Envelope Animation
+// Load Letters
 async function loadLetters() {
     const response = await fetch("http://127.0.0.1:5000/letters");
     const letters = await response.json();
+
     lettersContainer.innerHTML = "";
 
     letters.forEach(letter => {
+
         const card = document.createElement("div");
         card.className = "letter-card";
 
-        const envelope = document.createElement("div");
-        envelope.className = "envelope";
+        let [hour, minute] = letter.delivery_time.split(":");
+        hour = parseInt(hour);
+        let ampm = hour >= 12 ? "PM" : "AM";
+        hour = hour % 12 || 12;
 
-        const content = document.createElement("div");
-        content.innerHTML = `
+        const displayTime = `${hour}:${minute} ${ampm}`;
+        const deliveredStatus = letter.delivered === 1 ? "✅ Delivered" : "⏳ Pending";
+
+        card.innerHTML = `
             <strong>From:</strong> ${letter.sender}<br>
-            <strong>To:</strong> ${letter.recipient_email}<br><br>
-            <div class="typed"></div>
+            <strong>To:</strong> ${letter.recipient_email}<br>
+            <strong>Delivery:</strong> ${letter.delivery_date} at ${displayTime}<br>
+            <strong>Status:</strong> ${deliveredStatus}<br><br>
+            <div class="typed-text"></div>
         `;
 
-        envelope.appendChild(content);
-        card.appendChild(envelope);
         lettersContainer.appendChild(card);
 
-        setTimeout(() => envelope.classList.add("open"), 500);
-
-        const typedDiv = content.querySelector(".typed");
+        const typedDiv = card.querySelector(".typed-text");
         typeWriter(typedDiv, letter.message);
     });
 }
+
 loadLetters();
-
-
-// Real Petal Particle System
-const canvas = document.getElementById("petalCanvas");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let petals = [];
-for (let i = 0; i < 30; i++) {
-    petals.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 5 + 2,
-        speed: Math.random() * 1 + 0.5
-    });
-}
-
-function drawPetals() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "pink";
-
-    petals.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        p.y += p.speed;
-        if (p.y > canvas.height) p.y = 0;
-    });
-
-    requestAnimationFrame(drawPetals);
-}
-drawPetals();

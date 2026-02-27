@@ -2,41 +2,41 @@
 <html>
 <head>
     <title>Violet TimeCapsule 💌</title>
+
+    <!-- Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Soft Piano Background -->
-    <audio autoplay loop>
-        <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_7c1b5f5b78.mp3" type="audio/mpeg">
-    </audio>
-
-    <canvas id="petalCanvas"></canvas>
-
-    <h1>Write a Letter to the Future 💜</h1>
+    <h1>Violet TimeCapsule 💜</h1>
 
     <div class="glass-card">
         <form id="letterForm">
+
             <input type="text" id="sender" placeholder="Your Name" required>
+
             <input type="email" id="recipient" placeholder="Recipient Email" required>
 
-            <label>Delivery Date:</label>
+            <label>Delivery Date</label>
             <input type="date" id="date" required>
 
-            <label>Delivery Time:</label>
-
+            <label>Delivery Time</label>
             <div class="time-select">
-                <select id="hour" required><option value="">Hour</option></select>
-                <select id="minute" required><option value="">Minute</option></select>
-                <select id="ampm" required>
+                <select id="hour"><option value="">Hour</option></select>
+                <select id="minute"><option value="">Minute</option></select>
+                <select id="ampm">
                     <option value="">AM/PM</option>
                     <option value="AM">AM</option>
                     <option value="PM">PM</option>
                 </select>
             </div>
 
-            <textarea id="message" placeholder="Write your heartfelt letter..." required></textarea>
+            <textarea id="message" placeholder="Write your heartfelt letter here..." required></textarea>
+
             <button type="submit">Seal Envelope ✉️</button>
+
         </form>
     </div>
 
