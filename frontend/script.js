@@ -1,7 +1,4 @@
-// -------------------------------
-// Populate Hour & Minute Dropdowns
-// -------------------------------
-
+// Populate Time Selectors
 function populateTimeSelectors() {
     const hourSelect = document.getElementById("hour");
     const minuteSelect = document.getElementById("minute");
@@ -24,14 +21,10 @@ function populateTimeSelectors() {
 populateTimeSelectors();
 
 
-// -------------------------------
 // Save Letter
-// -------------------------------
-
 document.getElementById("letterForm").addEventListener("submit", async function(e) {
     e.preventDefault();
 
-    // Convert 12-hour time to 24-hour format
     let hour = parseInt(document.getElementById("hour").value);
     let minute = document.getElementById("minute").value;
     let ampm = document.getElementById("ampm").value;
@@ -41,15 +34,10 @@ document.getElementById("letterForm").addEventListener("submit", async function(
         return;
     }
 
-    if (ampm === "PM" && hour !== 12) {
-        hour += 12;
-    }
-    if (ampm === "AM" && hour === 12) {
-        hour = 0;
-    }
+    if (ampm === "PM" && hour !== 12) hour += 12;
+    if (ampm === "AM" && hour === 12) hour = 0;
 
     hour = hour < 10 ? "0" + hour : hour;
-
     const formattedTime = `${hour}:${minute}`;
 
     const data = {
@@ -62,26 +50,18 @@ document.getElementById("letterForm").addEventListener("submit", async function(
 
     const response = await fetch("http://127.0.0.1:5000/save-letter", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     });
 
     const result = await response.json();
-
     alert(result.message);
-
     document.getElementById("letterForm").reset();
-
     loadLetters();
 });
 
 
-// -------------------------------
 // Load Letters
-// -------------------------------
-
 async function loadLetters() {
     const response = await fetch("http://127.0.0.1:5000/letters");
     const letters = await response.json();
@@ -92,18 +72,12 @@ async function loadLetters() {
     letters.forEach(letter => {
         const div = document.createElement("div");
 
-        div.style.border = "1px solid purple";
-        div.style.margin = "10px";
-        div.style.padding = "10px";
-        div.style.borderRadius = "8px";
+        div.style.opacity = "0";
 
-        // Convert 24hr back to 12hr for display
         let [hour, minute] = letter.delivery_time.split(":");
         hour = parseInt(hour);
-
         let ampm = hour >= 12 ? "PM" : "AM";
-        hour = hour % 12;
-        hour = hour ? hour : 12;
+        hour = hour % 12 || 12;
 
         const displayTime = `${hour}:${minute} ${ampm}`;
 
@@ -121,9 +95,12 @@ async function loadLetters() {
         `;
 
         container.appendChild(div);
+
+        setTimeout(() => {
+            div.style.transition = "opacity 1s ease";
+            div.style.opacity = "1";
+        }, 100);
     });
 }
 
-
-// Load letters on page open
 loadLetters();
