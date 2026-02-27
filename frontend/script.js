@@ -4,20 +4,14 @@ function populateTimeSelectors() {
     const minuteSelect = document.getElementById("minute");
 
     for (let i = 1; i <= 12; i++) {
-        const option = document.createElement("option");
-        option.value = i;
-        option.textContent = i;
-        hourSelect.appendChild(option);
+        hourSelect.innerHTML += `<option value="${i}">${i}</option>`;
     }
 
     for (let i = 0; i < 60; i++) {
-        const option = document.createElement("option");
-        option.value = i < 10 ? "0" + i : i;
-        option.textContent = i < 10 ? "0" + i : i;
-        minuteSelect.appendChild(option);
+        const val = i < 10 ? "0" + i : i;
+        minuteSelect.innerHTML += `<option value="${val}">${val}</option>`;
     }
 }
-
 populateTimeSelectors();
 
 
@@ -29,11 +23,6 @@ document.getElementById("letterForm").addEventListener("submit", async function(
     let minute = document.getElementById("minute").value;
     let ampm = document.getElementById("ampm").value;
 
-    if (!hour || !minute || !ampm) {
-        alert("Please select complete time.");
-        return;
-    }
-
     if (ampm === "PM" && hour !== 12) hour += 12;
     if (ampm === "AM" && hour === 12) hour = 0;
 
@@ -41,66 +30,100 @@ document.getElementById("letterForm").addEventListener("submit", async function(
     const formattedTime = `${hour}:${minute}`;
 
     const data = {
-        sender: document.getElementById("sender").value,
-        recipient_email: document.getElementById("recipient").value,
-        delivery_date: document.getElementById("date").value,
+        sender: sender.value,
+        recipient_email: recipient.value,
+        delivery_date: date.value,
         delivery_time: formattedTime,
-        message: document.getElementById("message").value
+        message: message.value
     };
 
-    const response = await fetch("http://127.0.0.1:5000/save-letter", {
+    await fetch("http://127.0.0.1:5000/save-letter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     });
 
-    const result = await response.json();
-    alert(result.message);
-    document.getElementById("letterForm").reset();
+    letterForm.reset();
     loadLetters();
 });
 
 
-// Load Letters
+// Typewriter Effect
+function typeWriter(element, text, speed = 20) {
+    let i = 0;
+    function typing() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
+        }
+    }
+    typing();
+}
+
+
+// Load Letters with Envelope Animation
 async function loadLetters() {
     const response = await fetch("http://127.0.0.1:5000/letters");
     const letters = await response.json();
-
-    const container = document.getElementById("lettersContainer");
-    container.innerHTML = "";
+    lettersContainer.innerHTML = "";
 
     letters.forEach(letter => {
-        const div = document.createElement("div");
+        const card = document.createElement("div");
+        card.className = "letter-card";
 
-        div.style.opacity = "0";
+        const envelope = document.createElement("div");
+        envelope.className = "envelope";
 
-        let [hour, minute] = letter.delivery_time.split(":");
-        hour = parseInt(hour);
-        let ampm = hour >= 12 ? "PM" : "AM";
-        hour = hour % 12 || 12;
-
-        const displayTime = `${hour}:${minute} ${ampm}`;
-
-        const deliveredStatus = letter.delivered === 1
-            ? "✅ Delivered"
-            : "⏳ Pending";
-
-        div.innerHTML = `
+        const content = document.createElement("div");
+        content.innerHTML = `
             <strong>From:</strong> ${letter.sender}<br>
-            <strong>To:</strong> ${letter.recipient_email}<br>
-            <strong>Delivery:</strong> ${letter.delivery_date} at ${displayTime}<br>
-            <strong>Status:</strong> ${deliveredStatus}<br><br>
-            <strong>Message:</strong><br>
-            ${letter.message}
+            <strong>To:</strong> ${letter.recipient_email}<br><br>
+            <div class="typed"></div>
         `;
 
-        container.appendChild(div);
+        envelope.appendChild(content);
+        card.appendChild(envelope);
+        lettersContainer.appendChild(card);
 
-        setTimeout(() => {
-            div.style.transition = "opacity 1s ease";
-            div.style.opacity = "1";
-        }, 100);
+        setTimeout(() => envelope.classList.add("open"), 500);
+
+        const typedDiv = content.querySelector(".typed");
+        typeWriter(typedDiv, letter.message);
+    });
+}
+loadLetters();
+
+
+// Real Petal Particle System
+const canvas = document.getElementById("petalCanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let petals = [];
+for (let i = 0; i < 30; i++) {
+    petals.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 5 + 2,
+        speed: Math.random() * 1 + 0.5
     });
 }
 
-loadLetters();
+function drawPetals() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "pink";
+
+    petals.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        p.y += p.speed;
+        if (p.y > canvas.height) p.y = 0;
+    });
+
+    requestAnimationFrame(drawPetals);
+}
+drawPetals();
