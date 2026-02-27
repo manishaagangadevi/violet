@@ -1,24 +1,122 @@
+/* 🌸 Violet Evergarden Aesthetic */
+
 body {
-    font-family: Arial;
-    background: #f4eaff;
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #e9d5ff, #f5f3ff);
+    color: #3b0764;
     text-align: center;
-    padding: 40px;
+    overflow-x: hidden;
 }
 
-input, textarea {
-    width: 300px;
-    padding: 10px;
-    margin: 10px;
+/* Floating glow animation */
+body::before {
+    content: "";
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(255,255,255,0.4), transparent 40%);
+    animation: float 25s infinite linear;
+    z-index: -1;
+}
+
+@keyframes float {
+    from { transform: translate(0,0); }
+    to { transform: translate(-100px,-100px); }
+}
+
+h1 {
+    margin-top: 40px;
+    font-size: 36px;
+    letter-spacing: 2px;
+}
+
+form {
+    background: white;
+    padding: 35px;
+    width: 500px;
+    margin: 30px auto;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    transition: 0.4s ease;
+}
+
+form:hover {
+    transform: translateY(-8px);
+}
+
+input, select, textarea {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #d8b4fe;
+    font-family: 'Georgia', serif;
 }
 
 textarea {
-    height: 150px;
+    height: 140px;
+    resize: none;
 }
 
 button {
-    padding: 10px 20px;
-    background-color: purple;
+    background: linear-gradient(135deg, #a855f7, #7e22ce);
     color: white;
+    padding: 12px 30px;
     border: none;
+    border-radius: 30px;
     cursor: pointer;
+    transition: 0.3s ease;
+    font-size: 16px;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #9333ea, #6b21a8);
+    transform: scale(1.08);
+}
+
+.time-select select {
+    width: 28%;
+    margin: 5px;
+}
+
+#lettersContainer div {
+    background: white;
+    width: 650px;
+    margin: 20px auto;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: 0.3s ease;
+    text-align: left;
+}
+
+#lettersContainer div:hover {
+    transform: translateY(-6px);
+}
+
+/* Sakura Petals */
+.petals::before,
+.petals::after {
+    content: "🌸";
+    position: fixed;
+    font-size: 20px;
+    animation: fall 10s linear infinite;
+}
+
+.petals::after {
+    left: 50%;
+    animation-delay: 5s;
+}
+
+@keyframes fall {
+    from {
+        top: -10%;
+        transform: translateX(0) rotate(0deg);
+    }
+    to {
+        top: 110%;
+        transform: translateX(100px) rotate(360deg);
+    }
 }
