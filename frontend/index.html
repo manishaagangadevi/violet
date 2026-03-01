@@ -3,45 +3,50 @@
 <head>
     <title>Violet TimeCapsule 💜</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Flower Animation Canvas -->
-    <canvas id="flowerCanvas"></canvas>
+    <!-- Background Layers -->
+    <div class="light-glow"></div>
+    <canvas id="petalBack"></canvas>
+    <canvas id="petalFront"></canvas>
 
-    <h1>Violet TimeCapsule 💌</h1>
+    <div class="main-wrapper">
 
-    <div class="glass-card">
-        <form id="letterForm">
+        <h1>Violet TimeCapsule</h1>
+        <p class="subtitle">Letters that bloom in time</p>
 
-            <input type="text" id="sender" placeholder="Your Name" required>
-            <input type="email" id="recipient" placeholder="Recipient Email" required>
+        <div class="glass-card">
+            <form id="letterForm">
 
-            <label>Delivery Date</label>
-            <input type="date" id="date" required>
+                <input type="text" id="sender" placeholder="Your Name" required>
+                <input type="email" id="recipient" placeholder="Recipient Email" required>
 
-            <label>Delivery Time</label>
-            <div class="time-select">
-                <select id="hour"><option value="">Hour</option></select>
-                <select id="minute"><option value="">Minute</option></select>
-                <select id="ampm">
-                    <option value="">AM/PM</option>
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                </select>
-            </div>
+                <input type="date" id="date" required>
 
-            <textarea id="message" placeholder="Write your heartfelt letter here..." required></textarea>
+                <div class="time-row">
+                    <select id="hour"><option>Hour</option></select>
+                    <select id="minute"><option>Minute</option></select>
+                    <select id="ampm">
+                        <option>AM</option>
+                        <option>PM</option>
+                    </select>
+                </div>
 
-            <button type="submit">Seal Envelope ✉️</button>
-        </form>
+                <textarea id="message" placeholder="Write your letter..."></textarea>
+
+                <button type="submit">Seal Envelope ✉</button>
+
+            </form>
+        </div>
+
+        <h2>Saved Letters</h2>
+        <div id="lettersContainer"></div>
+
     </div>
-
-    <h2>Saved Letters 💌</h2>
-    <div id="lettersContainer"></div>
 
     <script src="script.js"></script>
 </body>
