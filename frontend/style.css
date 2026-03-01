@@ -6,16 +6,20 @@ body {
     animation: gradientShift 25s ease infinite;
     color: #2e1065;
     overflow-x: hidden;
+    opacity: 0;
+    animation: gradientShift 25s ease infinite, fadeIn 1.5s ease forwards;
 }
 
-/* Animated sky gradient */
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-/* Soft vignette */
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
 body::after {
     content: "";
     position: fixed;
@@ -24,7 +28,6 @@ body::after {
     pointer-events: none;
 }
 
-/* Glow orb */
 .light-glow {
     position: fixed;
     width: 700px;
@@ -36,7 +39,6 @@ body::after {
     z-index: -2;
 }
 
-/* Canvas */
 canvas {
     position: fixed;
     top: 0;
@@ -44,7 +46,6 @@ canvas {
     pointer-events: none;
 }
 
-/* Layout */
 .main-wrapper {
     text-align: center;
     padding: 80px 20px;
@@ -58,13 +59,10 @@ h1 {
 }
 
 .subtitle {
-    margin-top: -15px;
     font-style: italic;
     opacity: 0.6;
-    letter-spacing: 1px;
 }
 
-/* Glass card */
 .glass-card {
     width: 720px;
     margin: 50px auto;
@@ -73,14 +71,8 @@ h1 {
     background: rgba(255,255,255,0.55);
     backdrop-filter: blur(25px);
     box-shadow: 0 40px 120px rgba(46,16,101,0.25);
-    transition: transform 0.3s ease;
 }
 
-.glass-card:hover {
-    transform: translateY(-8px);
-}
-
-/* Inputs */
 input, select, textarea {
     width: 100%;
     padding: 18px;
@@ -96,7 +88,6 @@ textarea {
     line-height: 1.7;
 }
 
-/* Button */
 button {
     margin-top: 25px;
     padding: 16px 45px;
@@ -106,21 +97,51 @@ button {
     color: white;
     font-size: 18px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(126,34,206,0.4);
-}
-
-/* Letters */
 .letter-card {
     width: 720px;
     margin: 40px auto;
-    padding: 40px;
-    border-radius: 30px;
+    padding: 30px;
+    border-radius: 25px;
     background: rgba(255,255,255,0.65);
     backdrop-filter: blur(20px);
-    box-shadow: 0 30px 80px rgba(46,16,101,0.15);
+    box-shadow: 0 20px 60px rgba(46,16,101,0.15);
+}
+
+.envelope-front {
+    font-weight: bold;
+    cursor: pointer;
+    color: #6b21a8;
+}
+
+.hidden {
+    display: none;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 30px;
+    right: 40px;
+    background: rgba(255,255,255,0.3);
+    border: none;
+    padding: 10px 14px;
+    border-radius: 50px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.dark {
+    background: linear-gradient(135deg, #1c1333, #2e1f4f);
+    color: #f0e6ff;
+}
+
+.flower-layer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://i.imgur.com/8KQZ7lM.png");
+    background-size: 300px;
+    opacity: 0.05;
+    pointer-events: none;
 }

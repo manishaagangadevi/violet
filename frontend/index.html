@@ -9,7 +9,8 @@
 </head>
 <body>
 
-    <!-- Background Layers -->
+    <button id="themeToggle" class="theme-toggle">🌙</button>
+
     <div class="light-glow"></div>
     <canvas id="petalBack"></canvas>
     <canvas id="petalFront"></canvas>
@@ -24,19 +25,18 @@
 
                 <input type="text" id="sender" placeholder="Your Name" required>
                 <input type="email" id="recipient" placeholder="Recipient Email" required>
-
                 <input type="date" id="date" required>
 
                 <div class="time-row">
-                    <select id="hour"><option>Hour</option></select>
-                    <select id="minute"><option>Minute</option></select>
+                    <select id="hour"></select>
+                    <select id="minute"></select>
                     <select id="ampm">
-                        <option>AM</option>
-                        <option>PM</option>
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
                     </select>
                 </div>
 
-                <textarea id="message" placeholder="Write your letter..."></textarea>
+                <textarea id="message" placeholder="Write your letter..." required></textarea>
 
                 <button type="submit">Seal Envelope ✉</button>
 
@@ -47,6 +47,8 @@
         <div id="lettersContainer"></div>
 
     </div>
+
+    <div class="flower-layer"></div>
 
     <script src="script.js"></script>
 </body>
