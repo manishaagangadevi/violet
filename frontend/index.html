@@ -3,14 +3,17 @@
 <head>
     <title>Violet TimeCapsule 💜</title>
 
+    <!-- Premium Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Dark Mode Toggle -->
     <button id="themeToggle" class="theme-toggle">🌙</button>
 
+    <!-- Background Layers -->
     <div class="light-glow"></div>
     <canvas id="petalBack"></canvas>
     <canvas id="petalFront"></canvas>
@@ -25,18 +28,19 @@
 
                 <input type="text" id="sender" placeholder="Your Name" required>
                 <input type="email" id="recipient" placeholder="Recipient Email" required>
+
                 <input type="date" id="date" required>
 
                 <div class="time-row">
-                    <select id="hour"></select>
-                    <select id="minute"></select>
+                    <select id="hour"><option>Hour</option></select>
+                    <select id="minute"><option>Minute</option></select>
                     <select id="ampm">
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
+                        <option>AM</option>
+                        <option>PM</option>
                     </select>
                 </div>
 
-                <textarea id="message" placeholder="Write your letter..." required></textarea>
+                <textarea id="message" placeholder="Write your letter..."></textarea>
 
                 <button type="submit">Seal Envelope ✉</button>
 
@@ -47,8 +51,6 @@
         <div id="lettersContainer"></div>
 
     </div>
-
-    <div class="flower-layer"></div>
 
     <script src="script.js"></script>
 </body>
