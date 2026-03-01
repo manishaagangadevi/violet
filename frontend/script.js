@@ -1,4 +1,4 @@
-// Default theme
+// ---------- THEME SYSTEM ----------
 document.body.classList.add("spring");
 
 const themeBtn = document.getElementById("themeBtn");
@@ -13,7 +13,7 @@ themeBtn.addEventListener("click", ()=>{
     themeBtn.innerText = icons[themeIndex];
 });
 
-// Populate time
+// ---------- TIME POPULATION ----------
 const hour = document.getElementById("hour");
 const minute = document.getElementById("minute");
 const ampm = document.getElementById("ampm");
@@ -25,7 +25,6 @@ for (let i = 0; i < 60; i++) {
     minute.innerHTML += `<option value="${i}">${i.toString().padStart(2,"0")}</option>`;
 }
 
-// Set current time default
 const now = new Date();
 let currentHour = now.getHours();
 let currentMinute = now.getMinutes();
@@ -36,7 +35,7 @@ hour.value = currentHour;
 minute.value = currentMinute;
 ampm.value = period;
 
-// Prevent reload + Save letters
+// ---------- SAVE LETTER ----------
 const form = document.getElementById("letterForm");
 const status = document.getElementById("statusMessage");
 const container = document.getElementById("lettersContainer");
@@ -75,11 +74,10 @@ function displayLetters(){
         `;
     });
 }
-
 displayLetters();
 
-// REAL PETAL SHAPE
-function createPetalLayer(id,count,speed){
+// ---------- CINEMATIC PETAL ENGINE ----------
+function createPetalLayer(id,count,speed,blurLevel,isFront){
     const canvas=document.getElementById(id);
     const ctx=canvas.getContext("2d");
     canvas.width=window.innerWidth;
@@ -90,26 +88,47 @@ function createPetalLayer(id,count,speed){
         petals.push({
             x:Math.random()*canvas.width,
             y:Math.random()*canvas.height,
-            size:Math.random()*12+6,
+            size:Math.random()*14+6,
             speedY:(Math.random()*1+0.5)*speed,
-            speedX:Math.random()*0.4-0.2,
-            rotation:Math.random()*360
+            speedX:Math.random()*0.5-0.25,
+            rotation:Math.random()*360,
+            opacity:Math.random()*0.5+0.4
         });
     }
 
     function draw(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.filter = `blur(${blurLevel}px)`;
+
         petals.forEach(p=>{
             ctx.save();
             ctx.translate(p.x,p.y);
             ctx.rotate(p.rotation*Math.PI/180);
 
-            ctx.fillStyle="rgba(255,182,193,0.85)";
+            // Theme color variation
+            let color;
+            if(document.body.classList.contains("night")){
+                color = `rgba(255,182,193,${p.opacity})`;
+                if(isFront){
+                    ctx.shadowBlur = 12;
+                    ctx.shadowColor = "rgba(255,200,220,0.6)";
+                }
+            }
+            else if(document.body.classList.contains("sunset")){
+                color = `rgba(255,140,120,${p.opacity})`;
+            }
+            else{
+                color = `rgba(255,192,203,${p.opacity})`;
+            }
+
+            ctx.fillStyle=color;
+
             ctx.beginPath();
             ctx.moveTo(0,0);
             ctx.bezierCurveTo(-p.size/2,-p.size/2,-p.size,p.size/2,0,p.size);
             ctx.bezierCurveTo(p.size,p.size/2,p.size/2,-p.size/2,0,0);
             ctx.fill();
+
             ctx.restore();
 
             p.y+=p.speedY;
@@ -121,10 +140,22 @@ function createPetalLayer(id,count,speed){
                 p.x=Math.random()*canvas.width;
             }
         });
+
         requestAnimationFrame(draw);
     }
     draw();
 }
 
-createPetalLayer("petalBack",40,0.6);
-createPetalLayer("petalFront",25,1.2);
+// Back layer (soft blurred far petals)
+createPetalLayer("petalBack",45,0.5,3,false);
+
+// Front layer (sharp closer petals)
+createPetalLayer("petalFront",30,1.2,0,true);
+
+// ---------- PARALLAX DEPTH ----------
+document.addEventListener("mousemove", (e)=>{
+    const wrapper = document.querySelector(".main-wrapper");
+    const x = (window.innerWidth/2 - e.clientX)/40;
+    const y = (window.innerHeight/2 - e.clientY)/40;
+    wrapper.style.transform = `translate(${x}px, ${y}px)`;
+});
