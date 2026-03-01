@@ -4,18 +4,14 @@
     <title>Violet TimeCapsule 💜</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="top-controls">
         <button id="themeBtn">🌸</button>
-        <button id="musicBtn">🎵</button>
     </div>
-
-    <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
 
     <canvas id="petalBack"></canvas>
     <canvas id="petalFront"></canvas>
@@ -37,7 +33,7 @@
                     <select id="minute"></select>
                     <select id="ampm">
                         <option>AM</option>
-                        <option>PM</option>
+                        <option selected>PM</option>
                     </select>
                 </div>
 
