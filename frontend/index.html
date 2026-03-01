@@ -3,18 +3,20 @@
 <head>
     <title>Violet TimeCapsule 💜</title>
 
-    <!-- Premium Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Dark Mode Toggle -->
-    <button id="themeToggle" class="theme-toggle">🌙</button>
+    <div class="top-controls">
+        <button id="themeBtn">🌸</button>
+        <button id="musicBtn">🎵</button>
+    </div>
 
-    <!-- Background Layers -->
-    <div class="light-glow"></div>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
     <canvas id="petalBack"></canvas>
     <canvas id="petalFront"></canvas>
 
@@ -28,23 +30,24 @@
 
                 <input type="text" id="sender" placeholder="Your Name" required>
                 <input type="email" id="recipient" placeholder="Recipient Email" required>
-
                 <input type="date" id="date" required>
 
                 <div class="time-row">
-                    <select id="hour"><option>Hour</option></select>
-                    <select id="minute"><option>Minute</option></select>
+                    <select id="hour"></select>
+                    <select id="minute"></select>
                     <select id="ampm">
                         <option>AM</option>
                         <option>PM</option>
                     </select>
                 </div>
 
-                <textarea id="message" placeholder="Write your letter..."></textarea>
+                <textarea id="message" placeholder="Write your letter..." required></textarea>
 
                 <button type="submit">Seal Envelope ✉</button>
 
             </form>
+
+            <p id="statusMessage" class="status"></p>
         </div>
 
         <h2>Saved Letters</h2>

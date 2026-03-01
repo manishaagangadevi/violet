@@ -1,80 +1,135 @@
-// Populate time selectors
+// Populate time
+const hour = document.getElementById("hour");
+const minute = document.getElementById("minute");
+
 for (let i = 1; i <= 12; i++) {
-    hour.innerHTML += `<option value="${i}">${i}</option>`;
+    hour.innerHTML += `<option>${i}</option>`;
 }
 for (let i = 0; i < 60; i++) {
-    minute.innerHTML += `<option value="${i}">${i}</option>`;
+    minute.innerHTML += `<option>${i.toString().padStart(2,"0")}</option>`;
 }
 
-// Dark Mode
-const toggleBtn = document.getElementById("themeToggle");
-toggleBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-    toggleBtn.innerText = document.body.classList.contains("dark") ? "☀️" : "🌙";
+// Restore theme
+const themeBtn = document.getElementById("themeBtn");
+let themeState = localStorage.getItem("themeState") || 0;
+applyTheme(themeState);
+
+themeBtn.addEventListener("click", () => {
+    themeState = (parseInt(themeState) + 1) % 3;
+    localStorage.setItem("themeState", themeState);
+    applyTheme(themeState);
 });
 
-// Parallax
-document.addEventListener("mousemove", (e) => {
-    const wrapper = document.querySelector(".main-wrapper");
-    const x = (window.innerWidth / 2 - e.clientX) / 40;
-    const y = (window.innerHeight / 2 - e.clientY) / 40;
-    wrapper.style.transform = `translate(${x}px, ${y}px)`;
+function applyTheme(state){
+    document.body.classList.remove("sunset","night");
+    if(state == 1){
+        document.body.classList.add("sunset");
+        themeBtn.innerText="🌅";
+    } else if(state == 2){
+        document.body.classList.add("night");
+        themeBtn.innerText="🌙";
+    } else {
+        themeBtn.innerText="🌸";
+    }
+}
+
+// Music (must click to play)
+const musicBtn = document.getElementById("musicBtn");
+const bgMusic = document.getElementById("bgMusic");
+
+musicBtn.addEventListener("click", () => {
+    if(bgMusic.paused){
+        bgMusic.play();
+        musicBtn.innerText="🔊";
+    } else {
+        bgMusic.pause();
+        musicBtn.innerText="🎵";
+    }
 });
 
-// Petal system
-function createPetalLayer(canvasId, count, speedMultiplier) {
-    const canvas = document.getElementById(canvasId);
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+// Save Letter
+const form = document.getElementById("letterForm");
+const status = document.getElementById("statusMessage");
+const container = document.getElementById("lettersContainer");
 
-    let petals = [];
-    for (let i = 0; i < count; i++) {
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const letter = {
+        sender: document.getElementById("sender").value,
+        recipient: document.getElementById("recipient").value,
+        date: document.getElementById("date").value,
+        hour: hour.value,
+        minute: minute.value,
+        ampm: document.getElementById("ampm").value,
+        message: document.getElementById("message").value
+    };
+
+    let letters = JSON.parse(localStorage.getItem("letters")) || [];
+    letters.push(letter);
+    localStorage.setItem("letters", JSON.stringify(letters));
+
+    status.innerText = "💌 Letter saved successfully!";
+    form.reset();
+    displayLetters();
+});
+
+// Display saved letters
+function displayLetters(){
+    container.innerHTML="";
+    let letters = JSON.parse(localStorage.getItem("letters")) || [];
+    letters.forEach(l=>{
+        container.innerHTML += `
+            <div class="glass-card">
+                <p><b>From:</b> ${l.sender}</p>
+                <p><b>To:</b> ${l.recipient}</p>
+                <p><b>Delivery:</b> ${l.date} ${l.hour}:${l.minute} ${l.ampm}</p>
+                <p>${l.message}</p>
+            </div>
+        `;
+    });
+}
+
+displayLetters();
+
+// Petals
+function createPetalLayer(id,count,speed){
+    const canvas=document.getElementById(id);
+    const ctx=canvas.getContext("2d");
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+    let petals=[];
+    for(let i=0;i<count;i++){
         petals.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: Math.random() * 12 + 6,
-            speedY: (Math.random() * 1 + 0.5) * speedMultiplier,
-            speedX: Math.random() * 1 - 0.5,
-            rotation: Math.random() * 360
+            x:Math.random()*canvas.width,
+            y:Math.random()*canvas.height,
+            size:Math.random()*10+5,
+            speedY:(Math.random()*1+0.5)*speed,
+            speedX:Math.random()*0.5-0.25
         });
     }
 
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        petals.forEach(p => {
-            ctx.save();
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.rotation * Math.PI / 180);
-
-            let gradient = ctx.createLinearGradient(0, 0, p.size, p.size);
-            gradient.addColorStop(0, "rgba(255,192,203,0.9)");
-            gradient.addColorStop(1, "rgba(255,105,180,0.8)");
-            ctx.fillStyle = gradient;
-
+    function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        petals.forEach(p=>{
+            ctx.fillStyle="rgba(255,182,193,0.9)";
             ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.bezierCurveTo(-p.size/2, -p.size/2, -p.size, p.size/2, 0, p.size);
-            ctx.bezierCurveTo(p.size, p.size/2, p.size/2, -p.size/2, 0, 0);
+            ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
             ctx.fill();
-            ctx.restore();
 
-            p.y += p.speedY;
-            p.x += p.speedX;
-            p.rotation += 0.5;
+            p.y+=p.speedY;
+            p.x+=p.speedX;
 
-            if (p.y > canvas.height) {
-                p.y = -10;
-                p.x = Math.random() * canvas.width;
+            if(p.y>canvas.height){
+                p.y=-10;
+                p.x=Math.random()*canvas.width;
             }
         });
-
         requestAnimationFrame(draw);
     }
-
     draw();
 }
 
-createPetalLayer("petalBack", 40, 0.6);
-createPetalLayer("petalFront", 25, 1.2);
+createPetalLayer("petalBack",40,0.6);
+createPetalLayer("petalFront",25,1.2);
