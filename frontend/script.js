@@ -65,3 +65,10 @@ function createPetalLayer(canvasId, count, speedMultiplier) {
 
 createPetalLayer("petalBack", 40, 0.6);
 createPetalLayer("petalFront", 25, 1.2);
+// Parallax effect
+document.addEventListener("mousemove", (e) => {
+    const wrapper = document.querySelector(".main-wrapper");
+    const x = (window.innerWidth / 2 - e.clientX) / 40;
+    const y = (window.innerHeight / 2 - e.clientY) / 40;
+    wrapper.style.transform = `translate(${x}px, ${y}px)`;
+});
