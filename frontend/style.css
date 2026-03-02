@@ -1,114 +1,138 @@
+/* ===== GLOBAL RESET ===== */
 * {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: 'Georgia', serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    min-height:100vh;
-    overflow-x:hidden;
-    transition:background 0.6s ease;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding:40px 20px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Georgia', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 20px;
+    transition: background 0.6s ease;
 }
 
-/* THEMES */
+/* ===== THEMES ===== */
+
 .theme-violet {
-    background:linear-gradient(135deg,#2e1a47,#5b3c88);
+    background: linear-gradient(135deg, #2e1a47, #5b3c88);
 }
 
 .theme-sakura {
-    background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
 }
 
 .theme-midnight {
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
 }
 
+/* ===== TITLE ===== */
+
 .title {
-    font-size:3rem;
-    color:white;
-    margin-bottom:5px;
+    font-size: 3.2rem;
+    color: #ffffff;
+    margin-bottom: 8px;
+    text-align: center;
+    letter-spacing: 1px;
 }
 
 .subtitle {
-    color:#eee;
-    margin-bottom:40px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 40px;
+    font-size: 15px;
 }
 
-/* Theme buttons */
+/* ===== THEME SWITCHER ===== */
+
 .theme-switcher {
-    position:fixed;
-    top:20px;
-    right:20px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
 }
 
 .theme-switcher button {
-    margin-left:8px;
-    padding:8px 12px;
-    border:none;
-    border-radius:20px;
-    cursor:pointer;
+    margin-left: 8px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(6px);
+    color: white;
+    transition: 0.3s ease;
 }
 
-/* Envelope */
-.envelope-wrapper {
-    width:100%;
-    max-width:600px;
-    perspective:1000px;
+.theme-switcher button:hover {
+    background: rgba(255,255,255,0.35);
 }
+
+/* ===== ENVELOPE WRAPPER ===== */
+
+.envelope-wrapper {
+    width: 100%;
+    max-width: 650px;
+    perspective: 1000px;
+}
+
+/* ===== ENVELOPE GLASS CARD ===== */
 
 .envelope {
-    background:rgba(255,255,255,0.15);
-    backdrop-filter:blur(20px);
-    border-radius:20px;
-    padding:30px;
-    position:relative;
-    overflow:hidden;
-    transition:transform 0.8s ease;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(25px);
+    border-radius: 25px;
+    padding: 35px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    transition: transform 0.8s ease;
 }
 
 .envelope.open {
-    transform:rotateX(10deg);
+    transform: rotateX(10deg);
 }
 
+/* Flap effect */
 .flap {
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:50px;
-    background:rgba(255,255,255,0.2);
-    border-top-left-radius:20px;
-    border-top-right-radius:20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: rgba(255,255,255,0.18);
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
 }
+
+/* ===== FORM ===== */
 
 .letter-inside {
-    margin-top:30px;
+    margin-top: 40px;
 }
+
+/* ===== INPUTS FIXED PROPERLY ===== */
 
 input,
 select,
 textarea {
     width: 100%;
-    padding: 14px 16px;
-    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    border-radius: 16px;
     border: 1px solid rgba(255,255,255,0.25);
-    background: rgba(255,255,255,0.15);
+    background: rgba(0,0,0,0.25);
     color: #ffffff;
     font-size: 15px;
-    font-family: 'Inter', sans-serif;
     backdrop-filter: blur(8px);
     transition: all 0.3s ease;
 }
 
 input::placeholder,
 textarea::placeholder {
-    color: rgba(255,255,255,0.6);
-    font-weight: 400;
+    color: rgba(255,255,255,0.65);
 }
 
 input:focus,
@@ -116,38 +140,64 @@ select:focus,
 textarea:focus {
     outline: none;
     border: 1px solid rgba(255,255,255,0.6);
-    background: rgba(255,255,255,0.2);
-}
-textarea {
-    min-height:120px;
-    resize:none;
+    background: rgba(0,0,0,0.35);
 }
 
-.time-row {
-    display:flex;
-    gap:10px;
+/* Select dropdown fix */
+select {
+    color: #ffffff;
 }
+
+select option {
+    color: #000;
+}
+
+/* Textarea size */
+textarea {
+    min-height: 140px;
+    resize: none;
+}
+
+/* Time row layout */
+.time-row {
+    display: flex;
+    gap: 12px;
+}
+
+/* ===== BUTTON ===== */
 
 .seal-btn {
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:20px;
-    background:#7a4fd1;
-    color:white;
-    cursor:pointer;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #7a4fd1, #9b6cff);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
+
+.seal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* ===== STATUS MESSAGE ===== */
 
 #statusMsg {
-    text-align:center;
-    margin-top:10px;
-    color:#fff;
+    text-align: center;
+    margin-top: 15px;
+    color: #ffffff;
+    font-size: 14px;
 }
 
-/* Petal canvas */
+/* ===== PETAL CANVAS ===== */
+
 #petalCanvas {
-    position:fixed;
-    top:0;
-    left:0;
-    z-index:-1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    pointer-events: none;
 }
