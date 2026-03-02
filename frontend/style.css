@@ -23,11 +23,11 @@ body {
 }
 
 .theme-sakura {
-    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    background: linear-gradient(135deg, #bc969a, #c23e4d);
 }
 
 .theme-midnight {
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    background: linear-gradient(135deg, #0f2027, #203a43, #336c85);
 }
 
 /* ===== TITLE ===== */

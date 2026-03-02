@@ -45,6 +45,7 @@ document.getElementById("letterForm").addEventListener("submit", function(e){
     document.getElementById("envelope").classList.add("open");
 });
 // Cinematic multi-layer sakura system
+// Ultra cinematic sakura system
 function startPetals() {
     const canvas = document.getElementById("petalCanvas");
     const ctx = canvas.getContext("2d");
@@ -61,7 +62,25 @@ function startPetals() {
     const frontLayer = [];
 
     const BACK_COUNT = 35;
-    const FRONT_COUNT = 25;
+    const FRONT_COUNT = 30;
+
+    let mouseX = canvas.width / 2;
+    let mouseY = canvas.height / 2;
+
+    document.addEventListener("mousemove", e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function randomColor() {
+        const shades = [
+            "rgba(255,182,193,",   // soft pink
+            "rgba(255,192,203,",   // classic sakura
+            "rgba(255,160,180,",   // deeper pink
+            "rgba(255,220,230,"    // pale blossom
+        ];
+        return shades[Math.floor(Math.random() * shades.length)];
+    }
 
     function createPetal(depth) {
         return {
@@ -69,10 +88,10 @@ function startPetals() {
             y: Math.random() * canvas.height,
             size: depth === "back"
                 ? Math.random() * 10 + 6
-                : Math.random() * 14 + 10,
+                : Math.random() * 16 + 10,
             speedY: depth === "back"
-                ? Math.random() * 0.6 + 0.3
-                : Math.random() * 1 + 0.7,
+                ? Math.random() * 0.5 + 0.3
+                : Math.random() * 1 + 0.6,
             speedX: Math.random() * 0.4 - 0.2,
             rotation: Math.random() * 360,
             rotationSpeed: Math.random() * 1.5 - 0.75,
@@ -80,6 +99,7 @@ function startPetals() {
             opacity: depth === "back"
                 ? Math.random() * 0.3 + 0.3
                 : Math.random() * 0.5 + 0.5,
+            color: randomColor(),
             depth: depth
         };
     }
@@ -110,28 +130,47 @@ function startPetals() {
             0, 0
         );
 
-        ctx.fillStyle = `rgba(255, 182, 193, ${p.opacity})`;
+        ctx.shadowColor = "rgba(255,200,220,0.4)";
+        ctx.shadowBlur = 6;
+
+        ctx.fillStyle = p.color + p.opacity + ")";
         ctx.fill();
 
         ctx.restore();
     }
 
     let wind = 0;
-    let windDirection = 1;
+    let gustStrength = 0;
+    let gustTimer = 0;
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Gentle wind oscillation
-        wind += 0.002 * windDirection;
-        if (wind > 0.3 || wind < -0.3) {
-            windDirection *= -1;
+        // Natural wind oscillation
+        wind += 0.0015;
+        const windFlow = Math.sin(wind) * 0.3;
+
+        // Random gust burst every few seconds
+        gustTimer++;
+        if (gustTimer > 400) {
+            gustStrength = (Math.random() - 0.5) * 2;
+            gustTimer = 0;
         }
 
         function updateLayer(layer) {
             layer.forEach(p => {
+                // Mouse interaction
+                const dx = p.x - mouseX;
+                const dy = p.y - mouseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 120) {
+                    p.x += dx * 0.02;
+                    p.y += dy * 0.02;
+                }
+
                 p.y += p.speedY;
-                p.x += Math.sin(p.sway) * 0.4 + p.speedX + wind;
+                p.x += Math.sin(p.sway) * 0.4 + p.speedX + windFlow + gustStrength;
                 p.rotation += p.rotationSpeed;
                 p.sway += 0.01;
 
@@ -144,11 +183,11 @@ function startPetals() {
             });
         }
 
-        // Back layer (slightly blurred)
+        // Back depth
         ctx.filter = "blur(1px)";
         updateLayer(backLayer);
 
-        // Front layer (sharp)
+        // Front depth
         ctx.filter = "none";
         updateLayer(frontLayer);
 
