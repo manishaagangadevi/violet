@@ -46,6 +46,7 @@ document.getElementById("letterForm").addEventListener("submit", function(e){
 });
 
 // Petals
+// Ultra realistic sakura petals
 function startPetals(){
     const canvas = document.getElementById("petalCanvas");
     const ctx = canvas.getContext("2d");
@@ -55,33 +56,71 @@ function startPetals(){
 
     const petals = [];
 
-    for(let i=0;i<40;i++){
+    const PETAL_COUNT = 60;
+
+    for(let i=0;i<PETAL_COUNT;i++){
         petals.push({
-            x:Math.random()*canvas.width,
-            y:Math.random()*canvas.height,
-            size:Math.random()*8+4,
-            speed:Math.random()*1+0.5,
-            drift:Math.random()*1-0.5
+            x: Math.random()*canvas.width,
+            y: Math.random()*canvas.height,
+            size: Math.random()*12+8,
+            speedY: Math.random()*1+0.5,
+            speedX: Math.random()*0.5-0.25,
+            rotation: Math.random()*360,
+            rotationSpeed: Math.random()*2-1,
+            sway: Math.random()*2,
+            opacity: Math.random()*0.6+0.4
         });
     }
 
-    function draw(){
+    function drawPetal(p){
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation * Math.PI / 180);
+
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(
+            p.size/2, -p.size/2,
+            p.size, p.size/2,
+            0, p.size
+        );
+        ctx.bezierCurveTo(
+            -p.size, p.size/2,
+            -p.size/2, -p.size/2,
+            0, 0
+        );
+
+        ctx.fillStyle = `rgba(255, 182, 193, ${p.opacity})`;
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    function animate(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle="rgba(255,182,193,0.7)";
+
         petals.forEach(p=>{
-            ctx.beginPath();
-            ctx.ellipse(p.x,p.y,p.size,p.size*0.6,0,0,Math.PI*2);
-            ctx.fill();
+            p.y += p.speedY;
+            p.x += Math.sin(p.sway) * 0.3 + p.speedX;
+            p.rotation += p.rotationSpeed;
+            p.sway += 0.01;
 
-            p.y += p.speed;
-            p.x += p.drift;
-
-            if(p.y>canvas.height){
-                p.y=0;
-                p.x=Math.random()*canvas.width;
+            if(p.y > canvas.height){
+                p.y = -20;
+                p.x = Math.random()*canvas.width;
             }
+
+            drawPetal(p);
         });
-        requestAnimationFrame(draw);
+
+        requestAnimationFrame(animate);
     }
-    draw();
+
+    animate();
 }
+
+window.addEventListener("resize", () => {
+    const canvas = document.getElementById("petalCanvas");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
