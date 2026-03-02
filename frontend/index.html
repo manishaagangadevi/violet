@@ -1,31 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Violet TimeCapsule 💜</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Violet TimeCapsule 💜</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
 
-    <div class="top-controls">
-        <button id="themeBtn">🌸</button>
-    </div>
+<body class="theme-violet">
 
-    <canvas id="petalBack"></canvas>
-    <canvas id="petalFront"></canvas>
+<canvas id="petalCanvas"></canvas>
 
-    <div class="main-wrapper">
+<div class="theme-switcher">
+    <button onclick="setTheme('violet')">💜</button>
+    <button onclick="setTheme('sakura')">🌸</button>
+    <button onclick="setTheme('midnight')">🌙</button>
+</div>
 
-        <h1>Violet TimeCapsule</h1>
-        <p class="subtitle">Letters that bloom in time</p>
+<h1 class="title">Violet TimeCapsule</h1>
+<p class="subtitle">Letters that bloom in time</p>
 
-        <div class="glass-card">
+<div class="envelope-wrapper">
+    <div class="envelope" id="envelope">
+        <div class="flap"></div>
+
+        <div class="letter-inside">
             <form id="letterForm">
-
-                <input type="text" id="sender" placeholder="Your Name" required>
-                <input type="email" id="recipient" placeholder="Recipient Email" required>
+                <input type="text" id="name" placeholder="Your Name" required>
+                <input type="email" id="email" placeholder="Recipient Email" required>
                 <input type="date" id="date" required>
 
                 <div class="time-row">
@@ -33,24 +35,19 @@
                     <select id="minute"></select>
                     <select id="ampm">
                         <option>AM</option>
-                        <option selected>PM</option>
+                        <option>PM</option>
                     </select>
                 </div>
 
-                <textarea id="message" placeholder="Write your letter..." required></textarea>
+                <textarea id="message" placeholder="Write your heartfelt letter..." required></textarea>
 
-                <button type="submit">Seal Envelope ✉</button>
-
+                <button type="submit" class="seal-btn">Seal Envelope ✉</button>
+                <p id="statusMsg"></p>
             </form>
-
-            <p id="statusMessage" class="status"></p>
         </div>
-
-        <h2>Saved Letters</h2>
-        <div id="lettersContainer"></div>
-
     </div>
+</div>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
