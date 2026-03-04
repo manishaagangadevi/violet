@@ -197,7 +197,14 @@ function startPetals(){
 
         ctx.clearRect(0,0,canvas.width,canvas.height);
 
-        ctx.fillStyle="rgba(255,182,193,0.8)";
+        const colors = [
+"rgba(255,182,193,0.85)",
+"rgba(255,192,203,0.9)",
+"rgba(255,160,180,0.85)",
+"rgba(255,210,220,0.8)"
+];
+
+ctx.fillStyle = colors[Math.floor(Math.random()*colors.length)];
 
         petals.forEach(p=>{
 
@@ -209,9 +216,32 @@ function startPetals(){
 
             ctx.beginPath();
 
-            ctx.ellipse(0,0,p.size,p.size*0.6,0,0,Math.PI*2);
+// real sakura petal shape
+ctx.moveTo(0, 0);
 
-            ctx.fill();
+ctx.bezierCurveTo(
+    p.size * 0.5,
+    -p.size * 0.8,
+    p.size * 1.4,
+    p.size * 0.4,
+    0,
+    p.size
+);
+
+ctx.bezierCurveTo(
+    -p.size * 1.4,
+    p.size * 0.4,
+    -p.size * 0.5,
+    -p.size * 0.8,
+    0,
+    0
+);
+
+ctx.fillStyle = "rgba(255,182,193,0.85)";
+ctx.shadowColor = "rgba(255,200,220,0.5)";
+ctx.shadowBlur = 6;
+
+ctx.fill();
 
             ctx.restore();
 
