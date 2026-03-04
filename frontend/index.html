@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Violet TimeCapsule 💜</title>
+<title>Violet TimeCapsule</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body class="theme-violet">
@@ -12,42 +14,60 @@
 <canvas id="petalCanvas"></canvas>
 
 <div class="theme-switcher">
-    <button onclick="setTheme('violet')">💜</button>
-    <button onclick="setTheme('sakura')">🌸</button>
-    <button onclick="setTheme('midnight')">🌙</button>
+<button onclick="setTheme('violet')">💜</button>
+<button onclick="setTheme('sakura')">🌸</button>
+<button onclick="setTheme('midnight')">🌙</button>
 </div>
 
 <h1 class="title">Violet TimeCapsule</h1>
 <p class="subtitle">Letters that bloom in time</p>
 
 <div class="envelope-wrapper">
-    <div class="envelope" id="envelope">
-        <div class="flap"></div>
 
-        <div class="letter-inside">
-            <form id="letterForm">
-                <input type="text" id="name" placeholder="Your Name" required>
-                <input type="email" id="email" placeholder="Recipient Email" required>
-                <input type="date" id="date" required>
+<div class="envelope" id="envelope">
 
-                <div class="time-row">
-                    <select id="hour"></select>
-                    <select id="minute"></select>
-                    <select id="ampm">
-                        <option>AM</option>
-                        <option>PM</option>
-                    </select>
-                </div>
+<div class="flap"></div>
 
-                <textarea id="message" placeholder="Write your heartfelt letter..." required></textarea>
+<div class="letter-inside">
 
-                <button type="submit" class="seal-btn">Seal Envelope ✉</button>
-                <p id="statusMsg"></p>
-            </form>
-        </div>
-    </div>
+<form id="letterForm">
+
+<input id="name" placeholder="Your Name" required>
+
+<input id="email" placeholder="Recipient Email" required>
+
+<input type="date" id="date" required>
+
+<div class="time-row">
+
+<select id="hour"></select>
+
+<select id="minute"></select>
+
+<select id="ampm">
+<option>AM</option>
+<option>PM</option>
+</select>
+
 </div>
 
+<textarea id="message" placeholder="Write your heartfelt letter..." required></textarea>
+
+<button class="seal-btn" type="submit">Seal Envelope 💌</button>
+
+<p id="statusMsg"></p>
+
+</form>
+
+</div>
+</div>
+</div>
+
+<h2 class="letters-title">Your Letters</h2>
+
+<div id="lettersContainer" class="letters-container"></div>
+
 <script src="script.js"></script>
+
 </body>
 </html>
