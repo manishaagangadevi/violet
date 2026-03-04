@@ -1,4 +1,4 @@
-/* ===== GLOBAL RESET ===== */
+/* ================= GLOBAL RESET ================= */
 * {
     margin: 0;
     padding: 0;
@@ -12,41 +12,58 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 50px 20px;
+    padding: 60px 20px;
     transition: background 0.6s ease;
+    color: #ffffff;
 }
 
-/* ===== THEMES ===== */
+/* ================= THEMES ================= */
 
+/* Violet (default) */
 .theme-violet {
     background: linear-gradient(135deg, #2e1a47, #5b3c88);
 }
 
+/* Sakura */
 .theme-sakura {
-    background: linear-gradient(135deg, #bc969a, #c23e4d);
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
 }
 
+/* Midnight */
 .theme-midnight {
-    background: linear-gradient(135deg, #0f2027, #203a43, #336c85);
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
 }
 
-/* ===== TITLE ===== */
+/* ================= TITLE ================= */
 
 .title {
     font-size: 3.2rem;
-    color: #ffffff;
-    margin-bottom: 8px;
-    text-align: center;
     letter-spacing: 1px;
+    margin-bottom: 8px;
+    position: relative;
+    text-align: center;
+}
+
+/* ✨ Light glow behind title */
+.title::after {
+    content: "";
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+    z-index: -1;
 }
 
 .subtitle {
-    color: rgba(255,255,255,0.85);
     margin-bottom: 40px;
     font-size: 15px;
+    opacity: 0.85;
 }
 
-/* ===== THEME SWITCHER ===== */
+/* ================= THEME SWITCHER ================= */
 
 .theme-switcher {
     position: fixed;
@@ -70,15 +87,13 @@ body {
     background: rgba(255,255,255,0.35);
 }
 
-/* ===== ENVELOPE WRAPPER ===== */
+/* ================= ENVELOPE GLASS CARD ================= */
 
 .envelope-wrapper {
     width: 100%;
     max-width: 650px;
     perspective: 1000px;
 }
-
-/* ===== ENVELOPE GLASS CARD ===== */
 
 .envelope {
     background: rgba(255,255,255,0.12);
@@ -95,7 +110,7 @@ body {
     transform: rotateX(10deg);
 }
 
-/* Flap effect */
+/* Flap */
 .flap {
     position: absolute;
     top: 0;
@@ -107,13 +122,11 @@ body {
     border-top-right-radius: 25px;
 }
 
-/* ===== FORM ===== */
-
 .letter-inside {
     margin-top: 40px;
 }
 
-/* ===== INPUTS FIXED PROPERLY ===== */
+/* ================= FORM INPUTS ================= */
 
 input,
 select,
@@ -123,7 +136,7 @@ textarea {
     margin-bottom: 16px;
     border-radius: 16px;
     border: 1px solid rgba(255,255,255,0.25);
-    background: rgba(0,0,0,0.25);
+    background: rgba(0,0,0,0.3);
     color: #ffffff;
     font-size: 15px;
     backdrop-filter: blur(8px);
@@ -140,10 +153,10 @@ select:focus,
 textarea:focus {
     outline: none;
     border: 1px solid rgba(255,255,255,0.6);
-    background: rgba(0,0,0,0.35);
+    background: rgba(0,0,0,0.4);
 }
 
-/* Select dropdown fix */
+/* Fix dropdown */
 select {
     color: #ffffff;
 }
@@ -152,7 +165,6 @@ select option {
     color: #000;
 }
 
-/* Textarea size */
 textarea {
     min-height: 140px;
     resize: none;
@@ -164,7 +176,7 @@ textarea {
     gap: 12px;
 }
 
-/* ===== BUTTON ===== */
+/* ================= BUTTON ================= */
 
 .seal-btn {
     width: 100%;
@@ -183,16 +195,16 @@ textarea {
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-/* ===== STATUS MESSAGE ===== */
+/* ================= STATUS MESSAGE ================= */
 
 #statusMsg {
     text-align: center;
     margin-top: 15px;
-    color: #ffffff;
     font-size: 14px;
 }
 
-/* ===== PETAL CANVAS ===== */
+/* ================= PETAL CANVAS ================= */
+
 #petalCanvas {
     position: fixed;
     top: 0;
