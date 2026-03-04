@@ -19,17 +19,14 @@ body {
 
 /* ================= THEMES ================= */
 
-/* Violet (default) */
 .theme-violet {
     background: linear-gradient(135deg, #2e1a47, #5b3c88);
 }
 
-/* Sakura */
 .theme-sakura {
     background: linear-gradient(135deg, #ffdde1, #ee9ca7);
 }
 
-/* Midnight */
 .theme-midnight {
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
 }
@@ -44,7 +41,6 @@ body {
     text-align: center;
 }
 
-/* ✨ Light glow behind title */
 .title::after {
     content: "";
     position: absolute;
@@ -111,6 +107,7 @@ body {
 }
 
 /* Flap */
+
 .flap {
     position: absolute;
     top: 0;
@@ -156,7 +153,6 @@ textarea:focus {
     background: rgba(0,0,0,0.4);
 }
 
-/* Fix dropdown */
 select {
     color: #ffffff;
 }
@@ -170,7 +166,6 @@ textarea {
     resize: none;
 }
 
-/* Time row layout */
 .time-row {
     display: flex;
     gap: 12px;
@@ -201,6 +196,45 @@ textarea {
     text-align: center;
     margin-top: 15px;
     font-size: 14px;
+}
+
+/* ================= LETTERS VIEWER ================= */
+
+.letters-title {
+    margin-top: 60px;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.letters-container {
+    width: 100%;
+    max-width: 650px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.letter-card {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(20px);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.letter-card h3 {
+    margin-bottom: 6px;
+}
+
+.letter-card p {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.countdown {
+    margin-top: 8px;
+    font-size: 13px;
+    opacity: 0.8;
 }
 
 /* ================= PETAL CANVAS ================= */
