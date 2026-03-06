@@ -172,7 +172,7 @@ function startPetals(){
     window.addEventListener("resize", resize);
 
     const petals = [];
-    const PETAL_COUNT = 60;
+    const PETAL_COUNT = 70;
 
     let mouseX = canvas.width/2;
     let mouseY = canvas.height/2;
@@ -199,7 +199,9 @@ function startPetals(){
 
             rotation: Math.random()*360,
 
-            rotationSpeed: Math.random()*1-0.5
+            rotationSpeed: Math.random()*1-0.5,
+
+            resting:false
         });
     }
 
@@ -249,34 +251,43 @@ function startPetals(){
         ctx.restore();
     }
 
-    let wind = 0;
+    let wind=0;
 
     function animate(){
 
         ctx.clearRect(0,0,canvas.width,canvas.height);
 
-        wind += 0.002;
+        wind+=0.002;
 
         petals.forEach(p=>{
 
-            const dx = p.x - mouseX;
-            const dy = p.y - mouseY;
-            const dist = Math.sqrt(dx*dx+dy*dy);
+            if(!p.resting){
 
-            if(dist<100){
-                p.x += dx*0.02;
-                p.y += dy*0.02;
-            }
+                const dx=p.x-mouseX;
+                const dy=p.y-mouseY;
+                const dist=Math.sqrt(dx*dx+dy*dy);
 
-            p.y += p.speedY;
+                if(dist<100){
+                    p.x+=dx*0.02;
+                    p.y+=dy*0.02;
+                }
 
-            p.x += Math.sin(wind+p.sway)*0.3 + p.speedX;
+                p.y+=p.speedY;
 
-            p.rotation += p.rotationSpeed;
+                p.x+=Math.sin(wind+p.sway)*0.3 + p.speedX;
 
-            if(p.y>canvas.height){
-                p.y=-20;
-                p.x=Math.random()*canvas.width;
+                p.rotation+=p.rotationSpeed;
+
+                if(p.y>canvas.height-10){
+
+                    if(Math.random()<0.2){
+                        p.resting=true;
+                    }else{
+                        p.y=-20;
+                        p.x=Math.random()*canvas.width;
+                    }
+
+                }
             }
 
             drawPetal(p);
