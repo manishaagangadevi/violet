@@ -172,94 +172,119 @@ function startPetals(){
     window.addEventListener("resize", resize);
 
     const petals = [];
+    const PETAL_COUNT = 60;
 
-    for(let i=0;i<60;i++){
+    let mouseX = canvas.width/2;
+    let mouseY = canvas.height/2;
+
+    document.addEventListener("mousemove", e=>{
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    for(let i=0;i<PETAL_COUNT;i++){
 
         petals.push({
 
             x: Math.random()*canvas.width,
-
             y: Math.random()*canvas.height,
 
-            size: Math.random()*10+6,
+            size: Math.random()*8+6,
 
-            speed: Math.random()*1+0.5,
+            speedY: Math.random()*0.8+0.4,
 
-            drift: Math.random()*0.5 - 0.25,
+            speedX: Math.random()*0.4-0.2,
+
+            sway: Math.random()*2,
 
             rotation: Math.random()*360,
 
-            rotationSpeed: Math.random()*1 - 0.5
+            rotationSpeed: Math.random()*1-0.5
         });
     }
 
-    function draw(){
+    const colors=[
+        "rgba(255,182,193,0.9)",
+        "rgba(255,192,203,0.9)",
+        "rgba(255,160,180,0.9)",
+        "rgba(255,220,230,0.85)"
+    ];
+
+    function drawPetal(p){
+
+        ctx.save();
+
+        ctx.translate(p.x,p.y);
+        ctx.rotate(p.rotation*Math.PI/180);
+
+        ctx.beginPath();
+
+        ctx.moveTo(0,0);
+
+        ctx.bezierCurveTo(
+            p.size*0.5,
+            -p.size*0.8,
+            p.size*1.4,
+            p.size*0.4,
+            0,
+            p.size
+        );
+
+        ctx.bezierCurveTo(
+            -p.size*1.4,
+            p.size*0.4,
+            -p.size*0.5,
+            -p.size*0.8,
+            0,
+            0
+        );
+
+        ctx.fillStyle = colors[Math.floor(Math.random()*colors.length)];
+
+        ctx.shadowColor="rgba(255,200,220,0.5)";
+        ctx.shadowBlur=6;
+
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    let wind = 0;
+
+    function animate(){
 
         ctx.clearRect(0,0,canvas.width,canvas.height);
 
-        const colors = [
-"rgba(255,182,193,0.85)",
-"rgba(255,192,203,0.9)",
-"rgba(255,160,180,0.85)",
-"rgba(255,210,220,0.8)"
-];
-
-ctx.fillStyle = colors[Math.floor(Math.random()*colors.length)];
+        wind += 0.002;
 
         petals.forEach(p=>{
 
-            ctx.save();
+            const dx = p.x - mouseX;
+            const dy = p.y - mouseY;
+            const dist = Math.sqrt(dx*dx+dy*dy);
 
-            ctx.translate(p.x,p.y);
+            if(dist<100){
+                p.x += dx*0.02;
+                p.y += dy*0.02;
+            }
 
-            ctx.rotate(p.rotation * Math.PI/180);
+            p.y += p.speedY;
 
-            ctx.beginPath();
+            p.x += Math.sin(wind+p.sway)*0.3 + p.speedX;
 
-// real sakura petal shape
-ctx.moveTo(0, 0);
-
-ctx.bezierCurveTo(
-    p.size * 0.5,
-    -p.size * 0.8,
-    p.size * 1.4,
-    p.size * 0.4,
-    0,
-    p.size
-);
-
-ctx.bezierCurveTo(
-    -p.size * 1.4,
-    p.size * 0.4,
-    -p.size * 0.5,
-    -p.size * 0.8,
-    0,
-    0
-);
-
-ctx.fillStyle = "rgba(255,182,193,0.85)";
-ctx.shadowColor = "rgba(255,200,220,0.5)";
-ctx.shadowBlur = 6;
-
-ctx.fill();
-
-            ctx.restore();
-
-            p.y += p.speed;
-            p.x += p.drift;
             p.rotation += p.rotationSpeed;
 
-            if(p.y > canvas.height){
-
-                p.y = 0;
-                p.x = Math.random()*canvas.width;
-
+            if(p.y>canvas.height){
+                p.y=-20;
+                p.x=Math.random()*canvas.width;
             }
+
+            drawPetal(p);
 
         });
 
-        requestAnimationFrame(draw);
+        requestAnimationFrame(animate);
     }
 
-    draw();
+    animate();
 }
